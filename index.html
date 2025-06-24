@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Dotazník</title>
+</head>
+<body>
+    <h1>Zadej dotaz</h1>
+    <input type="text" id="userInput" placeholder="Napiš něco...">
+    <button onclick="sendData()">Odeslat</button>
+
+    <h2>Odpověď:</h2>
+    <pre id="response"></pre>
+
+    <script>
+        async function sendData() {
+            const input = document.getElementById("userInput").value;
+            const responseBox = document.getElementById("response");
+
+            const response = await fetch("https://tvuj-backend.onrender.com/process", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ input: input })
+            });
+
+            const data = await response.json();
+            responseBox.textContent = data.output;
+        }
+    </script>
+</body>
+</html>
